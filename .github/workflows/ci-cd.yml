@@ -33,6 +33,7 @@ jobs:
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
           cd /home/ec2-user/app
+          git pull origin main
           docker stop portfolio-app || true
           docker rm portfolio-app || true
           docker rmi portfolio-app:latest || true

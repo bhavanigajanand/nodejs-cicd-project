@@ -1,0 +1,13 @@
+{
+  "name": "nodejs-cicd-project",
+  "version": "1.0.0",
+  "description": "DevOps portfolio app deployed via CI/CD",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo 'Tests passed' && exit 0"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

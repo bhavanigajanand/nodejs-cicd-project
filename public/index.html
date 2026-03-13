@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DevOps Portfolio</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+    header { background: #1e293b; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; }
+    header h1 { font-size: 22px; color: #38bdf8; }
+    nav a { color: #94a3b8; text-decoration: none; margin-left: 24px; font-size: 14px; }
+    nav a:hover { color: #38bdf8; }
+    .hero { text-align: center; padding: 80px 20px 60px; }
+    .hero h2 { font-size: 48px; font-weight: 700; color: #f1f5f9; margin-bottom: 16px; }
+    .hero h2 span { color: #38bdf8; }
+    .hero p { font-size: 18px; color: #94a3b8; max-width: 500px; margin: 0 auto 32px; line-height: 1.7; }
+    .badge { display: inline-block; background: #0ea5e9; color: #fff; padding: 6px 16px; border-radius: 20px; font-size: 13px; margin: 4px; }
+    .badge.green { background: #10b981; }
+    .badge.purple { background: #8b5cf6; }
+    .badge.orange { background: #f59e0b; }
+    .section { max-width: 1000px; margin: 0 auto; padding: 40px 20px; }
+    .section h3 { font-size: 24px; color: #38bdf8; margin-bottom: 24px; text-align: center; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+    .card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 24px; transition: transform 0.2s; }
+    .card:hover { transform: translateY(-4px); }
+    .card h4 { font-size: 18px; color: #f1f5f9; margin-bottom: 10px; }
+    .card p { font-size: 14px; color: #94a3b8; line-height: 1.6; }
+    .pipeline { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 24px; display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+    .step { background: #0f172a; border: 1px solid #38bdf8; color: #38bdf8; padding: 8px 16px; border-radius: 8px; font-size: 13px; }
+    .arrow { color: #475569; font-size: 18px; }
+    footer { text-align: center; padding: 30px; color: #475569; font-size: 13px; border-top: 1px solid #1e293b; margin-top: 40px; }
+    .status-dot { display: inline-block; width: 8px; height: 8px; background: #10b981; border-radius: 50%; margin-right: 6px; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Bhava | DevOps Engineer</h1>
+    <nav>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#pipeline">Pipeline</a>
+    </nav>
+  </header>
+  <div class="hero">
+    <h2>Building <span>Scalable</span> Infrastructure</h2>
+    <p>DevOps Engineer specializing in CI/CD pipelines, container orchestration, and cloud infrastructure.</p>
+    <div>
+      <span class="badge">Docker</span>
+      <span class="badge green">Kubernetes</span>
+      <span class="badge purple">GitHub Actions</span>
+      <span class="badge orange">AWS</span>
+    </div>
+  </div>
+  <div class="section" id="skills">
+    <h3>Core Skills</h3>
+    <div class="cards">
+      <div class="card">
+        <h4>Container & Orchestration</h4>
+        <p>Docker, Kubernetes, Minikube, Helm — packaging and deploying apps at scale.</p>
+      </div>
+      <div class="card">
+        <h4>CI/CD Pipelines</h4>
+        <p>GitHub Actions, automated testing, Docker image builds, and deployments to AWS.</p>
+      </div>
+      <div class="card">
+        <h4>Cloud Infrastructure</h4>
+        <p>AWS EC2, EKS, ECR, IAM — provisioning and managing cloud resources.</p>
+      </div>
+    </div>
+  </div>
+  <div class="section" id="projects">
+    <h3>Featured Project</h3>
+    <div class="cards">
+      <div class="card">
+        <h4>CI/CD Pipeline Project</h4>
+        <p>End-to-end pipeline using GitHub Actions, Docker, Kubernetes on AWS. Auto deploys on every push to main.</p>
+      </div>
+      <div class="card">
+        <h4>This Page!</h4>
+        <p><span class="status-dot"></span>Live — deployed via CI/CD pipeline to AWS EC2 running inside a Docker container on Kubernetes.</p>
+      </div>
+    </div>
+  </div>
+  <div class="section" id="pipeline">
+    <h3>My CI/CD Pipeline</h3>
+    <div class="pipeline">
+      <span class="step">Code</span>
+      <span class="arrow">→</span>
+      <span class="step">Git Push</span>
+      <span class="arrow">→</span>
+      <span class="step">GitHub Actions</span>
+      <span class="arrow">→</span>
+      <span class="step">Docker Build</span>
+      <span class="arrow">→</span>
+      <span class="step">Deploy to K8s</span>
+    </div>
+  </div>
+  <footer>
+    Built and deployed with Docker + Kubernetes + GitHub Actions on AWS
+  </footer>
+</body>
+</html>

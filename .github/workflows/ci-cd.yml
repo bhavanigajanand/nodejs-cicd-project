@@ -4,40 +4,80 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  build-and-deploy:
+  build:
+    name: Build and Test
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
 
+    - name: Set up Docker
+      uses: docker/setup-buildx-action@v2
+
     - name: Build Docker image
       run: |
         docker build -t portfolio-app:latest .
+        echo "Docker image built successfully!"
 
     - name: Test Docker image
       run: |
         docker run -d -p 3000:3000 --name test-container portfolio-app:latest
         sleep 5
-        curl http://localhost:3000/health
+        curl -f http://localhost:3000/health
+        echo "Health check passed!"
         docker stop test-container
         docker rm test-container
 
-    - name: Deploy to EC2 with Kubernetes
+  deploy:
+    name: Deploy to EC2
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Deploy to EC2
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.EC2_HOST }}
         username: ec2-user
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
+          echo "=== Starting Deployment ==="
+
           cd /home/ec2-user/app
+
+          echo "=== Pulling latest code ==="
           git pull origin main
+
+          echo "=== Building Docker image ==="
           docker build -t portfolio-app:latest .
+
+          echo "=== Deploying with Docker Compose ==="
+          docker-compose down
+          docker-compose up -d
+          docker-compose ps
+
+          echo "=== Loading image into Minikube ==="
           docker save portfolio-app:latest | minikube image load --overwrite=true -
+
+          echo "=== Deploying to Kubernetes ==="
           kubectl apply -f k8s/deployment.yaml
           kubectl apply -f k8s/service.yaml
           kubectl rollout restart deployment portfolio-app
           kubectl rollout status deployment portfolio-app
-          echo "Deployed successfully to Kubernetes!"
+
+          echo "=== Deployment Complete! ==="
+          echo "App running on:"
+          echo "  Docker Compose -> http://${{ secrets.EC2_HOST }}:3000"
+          echo "  Kubernetes     -> http://${{ secrets.EC2_HOST }}:30000"
+          echo "  Prometheus     -> http://${{ secrets.EC2_HOST }}:9090"
+          echo "  Grafana        -> http://${{ secrets.EC2_HOST }}:3001"
